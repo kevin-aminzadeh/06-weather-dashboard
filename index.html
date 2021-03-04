@@ -9,6 +9,7 @@
       integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="./assets/css/main.css" />
     <script
       src="https://kit.fontawesome.com/8426ae9c5d.js"
       crossorigin="anonymous"
@@ -16,64 +17,80 @@
     <title>Weather Dashboard</title>
   </head>
   <body class="h-100 d-flex flex-column">
-    <header class="container-fluid text-center bg-dark text-light py-3">
-      <h1>Weather Dashboard</h1>
+    <header
+      class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
+    >
+      <a href="" class="navbar-brand col-md-3 col-lg-2 px-3 me-0">
+        Weather Dashboard
+      </a>
+      <!-- Hamburger Menu Button For Sidebar -->
+      <button
+        class="navbar-toggler position-absolute d-md-none collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#sidebarMenu"
+        aria-controls="sidebarMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Search Bar Section -->
+      <div class="input-group w-100">
+        <input
+          type="text"
+          class="form-control form-control-dark"
+          placeholder="Search For A City"
+          aria-label="Search"
+        />
+        <button class="btn btn-light rounded-0 px-4">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
     </header>
     <div class="container-fluid h-100">
-      <div class="row mx-auto h-100">
+      <div class="row h-100">
         <!-- Sidebar -->
-        <aside class="col-3 bg-light py-3 h-100">
-          <h3 class="h4">Search for a City:</h3>
-          <form class="row g-0 align-items-center">
-            <div class="col">
-              <label class="visually-hidden" for="inlineFormInputGroupUsername"
-                >City</label
-              >
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="inlineFormInputGroupUsername"
-                  placeholder=""
-                />
-              </div>
-            </div>
+        <nav
+          id="sidebarMenu"
+          class="col-md-3 col-lg-3 col-xl-2 bg-light sidebar d-md-block"
+        >
+          <!-- Sidebar Content Wrapper -->
+          <div class="position-sticky pt-5 pt-md-3">
+            <!-- Search History Section -->
 
-            <div class="col ps-0">
-              <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </form>
-          <div class="row mt-3">
-            <div class="col">
-              <ul class="list-group">
+            <ul class="nav flex-column pt-2 pt-md-0">
+              <li class="nav-item">
+                <h2 class="lead nav-link">Previous Searches</h2>
+              </li>
+              <li class="nav-item d-grid">
                 <button
                   class="list-group-item list-group-action text-start text-secondary"
                 >
                   Austin
                 </button>
-                <button
-                  class="list-group-item list-group-action text-start text-secondary"
-                >
-                  Sydney
-                </button>
-                <button
-                  class="list-group-item list-group-action text-start text-secondary"
-                >
-                  Melbourne
-                </button>
-                <button
-                  class="list-group-item list-group-action text-start text-secondary"
-                >
-                  Adelaide
-                </button>
-              </ul>
-            </div>
+              </li>
+
+              <button
+                class="list-group-item list-group-action text-start text-secondary"
+              >
+                Sydney
+              </button>
+              <button
+                class="list-group-item list-group-action text-start text-secondary"
+              >
+                Melbourne
+              </button>
+              <button
+                class="list-group-item list-group-action text-start text-secondary"
+              >
+                Adelaide
+              </button>
+            </ul>
           </div>
-        </aside>
+        </nav>
         <!-- Result Section -->
-        <main class="col px-3 py-3">
+        <main class="col-md-9 col-xl-10 ms-sm-auto px-md-4 py-3">
           <div class="container">
             <!-- Current Forecast Section -->
             <section class="row border py-4">
