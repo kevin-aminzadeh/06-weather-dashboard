@@ -38,9 +38,10 @@
       <!-- Search Bar Section -->
       <div class="input-group w-100">
         <input
+          id="search-input"
           type="text"
           class="form-control form-control-dark"
-          placeholder="Search For A City"
+          placeholder="Enter a city"
           aria-label="Search"
         />
         <button class="btn btn-light rounded-0 px-4">
@@ -92,6 +93,7 @@
         <!-- Result Section -->
         <main class="col-md-9 col-xl-10 ms-sm-auto px-md-4 py-3">
           <div class="container">
+            <div class="row" id="details"></div>
             <!-- Current Forecast Section -->
             <section class="row border py-4">
               <div class="col">
@@ -201,11 +203,22 @@
         </main>
       </div>
     </div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <script src="./assets/js/app.js"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsJjl0k_Mcimc21FEY_Vt1n4OayZLB6v4&libraries=places&callback=initAutocomplete"
+      async
+      defer
+    ></script>
   </body>
 </html>
