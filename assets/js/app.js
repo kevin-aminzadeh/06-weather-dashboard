@@ -307,4 +307,85 @@ class PreviousSearchesView {
   }
 }
 
+// Current Weather View Class Definition
+class CurrentWeatherView {
+  constructor(resultsRootEl) {
+    this.rootEl = resultsRootEl;
+    this.template = document.createRange().createContextualFragment(`
+      <!-- Current Weather Section -->
+      <section class="row py-4" id="current-weather">
+        <div class="col">
+          <h1 id="city-name"></h1>
+        </div>
+        <ul class="list-unstyled" id="current-weather-list">
+          <li class="mt-3">
+            Temperature: <span id="temp-value"></span>
+          </li>
+          <li class="mt-3">
+            Humidity: <span id="humidity-value"></span>
+          </li>
+          <li class="mt-3">
+            Wind Speed: <span id="wind-value"></span>
+          </li>
+          <li class="mt-3">
+            UV Index:
+            <span id="uv-value"></span>
+          </li>
+        </ul>
+      </section>
+    `);
+    this.render();
+    eventBus.subscribe(
+      "CurrentWeatherView",
+      "currentWeatherDataUpdated",
+      this.update
+    );
+  }
+
+  // Render Initial View Content
+  render() {
+    this.rootEl.append(this.template);
+    document.getElementById("current-weather-list").classList.add("invisible");
+    document
+      .getElementById("city-name")
+      .classList.add("lead", "text-center", "text-secondary");
+    document.getElementById("city-name").innerText =
+      "Search for a city above to get the latest weather forecast. ☀️";
+  }
+
+  update(data) {
+    document.getElementById("current-weather").classList.add("border");
+    document
+      .getElementById("city-name")
+      .classList.remove("lead", "text-center", "text-secondary");
+    document.getElementById(
+      "city-name"
+    ).innerHTML = `${data.city} (${data.date}) <img src="${data.icon.url}" alt="${data.icon.main}">`;
+    document.getElementById("temp-value").innerText = data.temp;
+    document.getElementById("humidity-value").innerText = data.humidity;
+    document.getElementById("wind-value").innerText = data.windSpeed;
+    const uviSpanEl = document.getElementById("uv-value");
+    uviSpanEl.innerText = data.uvi;
+
+    // Determine the UV index threat level color
+    switch (true) {
+      case data.uvi < 3:
+        uviSpanEl.removeAttribute("class");
+        uviSpanEl.classList.add("badge", "py-2", "bg-success");
+        break;
+      case data.uvi < 6 && data.uvi > 2:
+        uviSpanEl.removeAttribute("class");
+        uviSpanEl.classList.add("badge", "py-2", "bg-warning");
+        break;
+      case data.uvi > 5:
+        uviSpanEl.removeAttribute("class");
+        uviSpanEl.classList.add("badge", "py-2", "bg-danger");
+        break;
+    }
+    document
+      .getElementById("current-weather-list")
+      .classList.remove("invisible");
+  }
+}
+
 /* || Controller Class Definitions || */
