@@ -56,9 +56,47 @@ class AppStorageService {
 
   init() {
     console.log(`Initializing Storage Service...\n`);
+
+    // Check if previous search data already exists in local storage
+    if (
+      localStorage.getItem("previousSearches") &&
+      JSON.parse(localStorage.getItem("previousSearches")).length
+    ) {
+      previousSearches = JSON.parse(localStorage.getItem("previousSearches"));
+    }
+
+    // Publish the retrieved previous searches to the event bus for consumption by other components
+    eventBus.publish("previousSearchesRetrieved", previousSearches);
+
+    // Subscribe to Search Submission Events
+    eventBus.subscribe("StorageService", "submitSearch", this.saveItem);
   }
 
-  saveItem(data) {}
+  saveItem(data) {
+    // Derive item data from received data
+    const searchItem = {
+      city: data.name,
+      coordinates: { lat: data.coordinates.lat, lon: data.coordinates.lng },
+    };
+
+    // Check if the search item already exists in previous searches
+    const entryAlreadyExists = previousSearches.findIndex((city) => {
+      return JSON.stringify(city) == JSON.stringify(searchItem);
+    });
+
+    // If the new search item is unique, save it to the previous searches array
+    if (entryAlreadyExists == -1) {
+      previousSearches.push(searchItem);
+      console.log(`Searched City saved!`);
+      eventBus.publish(
+        "previousSearchItemAdded",
+        previousSearches[previousSearches.length - 1]
+      );
+    }
+
+    // Update local storage to reflect the new data
+    localStorage.setItem("previousSearches", JSON.stringify(previousSearches));
+  }
 }
 
 /* || View Class Definitions || */
