@@ -99,6 +99,54 @@ class AppStorageService {
   }
 }
 
+// Google Places Autocomplete API Interface Service Class Definition
+class PlacesAPIService {
+  constructor() {
+    // Instance Variables
+    this.autocomplete;
+    this.place;
+    this.locationCoordinates;
+
+    // Create a global reference to the initAutocomplete() method in order to allow the Google Places Autocomplete API to use it as a callback
+    window.initAutocomplete = this.initAutocomplete.bind(this);
+  }
+
+  initAutocomplete() {
+    this.autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById("search-input"),
+      {
+        types: ["(cities)"],
+        componentRestrictions: { country: ["AU"] },
+        fields: ["name", "geometry.location"],
+      }
+    );
+
+    this.autocomplete.addListener("place_changed", () => {
+      this.place = this.autocomplete.getPlace();
+      this.locationCoordinates = JSON.parse(
+        JSON.stringify(this.place.geometry.location)
+      );
+
+      if (!this.place.geometry) {
+        // User did not select a prediction; reset the input field
+        document.getElementById("search-input").placeholder = "Enter a city";
+      } else {
+        // Attach event listener to the search button
+        document.getElementById("search-btn").addEventListener("click", () => {
+          // Publish a "submitSearch" event to the event bus, using the selected city's coordinates as the event data
+
+          eventBus.publish("submitSearch", {
+            name: this.place.name,
+            coordinates: JSON.parse(
+              JSON.stringify(this.place.geometry.location)
+            ),
+          });
+        });
+      }
+    });
+  }
+}
+
 /* || View Class Definitions || */
 
 /* || Controller Class Definitions || */
