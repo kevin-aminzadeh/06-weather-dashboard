@@ -1,14 +1,18 @@
+/* || Data Service Class Definitions || */
+
 // Storage Abstract Service Class Definition
-class appStorageService {
+class AppStorageService {
   constructor() {
-    this.savedItems;
+    this.init();
   }
 
-  getItems() {
-    this.savedItems = JSON.parse(localStorage.getItem("searchHistory"));
+  init() {
+    console.log(`Initializing Storage Service...\n`);
   }
 
-  saveItem() {}
-
-  clearItems() {}
+  saveItem(data) {}
 }
+
+/* || View Class Definitions || */
+
+/* || Controller Class Definitions || */
