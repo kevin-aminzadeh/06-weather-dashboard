@@ -449,3 +449,75 @@ class FiveDayForecastView {
 }
 
 /* || Controller Class Definitions || */
+
+// Application Controller Class Definition
+class App {
+  constructor() {
+    // Instantiate Views
+    this.previousSearchesView = new PreviousSearchesView(rootEl);
+    this.currentWeatherView = new CurrentWeatherView(resultsRootEl);
+    this.fiveDayForecastView = new FiveDayForecastView(resultsRootEl);
+    // Initialize App Subscriptions
+    this.initSubscriptions();
+    // Instantiate Data Services
+    this.storageService = new AppStorageService();
+    this.weatherAPIService = new WeatherAPIService();
+    this.placesAPIService = new PlacesAPIService();
+  }
+
+  initSubscriptions() {
+    eventBus.subscribe("App", "weatherDataReceived", this.processWeatherData);
+  }
+
+  processWeatherData(data) {
+    // Filter and publish current weather data
+    const currentWeather = {
+      city: data.city,
+      date: new Date(data.current.dt * 1000).toLocaleDateString(),
+      temp: data.current.temp + " \u{2103}",
+      humidity: data.current.humidity + "%",
+      windSpeed: data.current.wind_speed + " MPH",
+      uvi: data.current.uvi,
+      icon: {
+        main: data.current.weather[0].main,
+        url: `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`,
+      },
+    };
+
+    // Publish a "currentWeatherUpdated" event to the event bus with the filtered current weather data.
+    eventBus.publish("currentWeatherDataUpdated", currentWeather);
+
+    // Initialize an empty array to hold 5 day forecast data
+    let fiveDayForecast = [];
+
+    // Filter and publish 5 day forecast data
+    for (const index in data.daily) {
+      // Exclude forecast data for current day and limit data to 5 days
+      if (index != 0 && index < 6) {
+        const forecastData = data.daily[index];
+        const dailyForecast = {
+          // Convert unix time stamp to human readable date
+          date: new Date(forecastData.dt * 1000).toLocaleDateString(),
+          temp: forecastData.temp.day + " \u{2103}",
+          humidity: forecastData.humidity + "%",
+          icon: {
+            main: forecastData.weather[0].main,
+            url: `http://openweathermap.org/img/wn/${forecastData.weather[0].icon}@2x.png`,
+          },
+        };
+
+        // Push daily forecast object to the five day forecast array
+        fiveDayForecast.push(dailyForecast);
+      }
+    }
+
+    // Publish a "forecastUpdated" event to the event bus with the filtered forecast data.
+    eventBus.publish("forecastDataUpdated", fiveDayForecast);
+  }
+}
+
+// Initialize App Once HTML Document Has Loaded
+window.addEventListener("DOMContentLoaded", () => {
+  eventBus = new EventBus();
+  app = new App();
+});
