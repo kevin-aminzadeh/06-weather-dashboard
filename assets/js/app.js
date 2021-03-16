@@ -147,6 +147,42 @@ class PlacesAPIService {
   }
 }
 
+// Open Weather API Interface Service Class Definition
+class WeatherAPIService {
+  constructor() {
+    this.initSubscriptions();
+  }
+
+  initSubscriptions() {
+    // Subscribe to the "submitSearch" event on the event bus so we know when to request forecast data from Open Weather's API
+    eventBus.subscribe("WeatherAPIService", "submitSearch", this.getForecast);
+
+    // Subscribe to the "submitSearch" event on the event bus so we know when to request forecast data from Open Weather's API
+    eventBus.subscribe(
+      "WeatherAPIService",
+      "searchItemClicked",
+      this.getForecast
+    );
+  }
+
+  async getForecast(city) {
+    const res = await $.ajax({
+      url: "https://api.openweathermap.org/data/2.5/onecall",
+      method: "GET",
+      data: {
+        lat: city.coordinates.lat,
+        lon: city.coordinates.lng,
+        units: "metric",
+        exclude: "minutely,hourly",
+        appid: "efaf1d8fa4ca195ff9a3f999a58db79f",
+      },
+    });
+    res.city = city.name;
+
+    eventBus.publish("weatherDataReceived", res);
+  }
+}
+
 /* || View Class Definitions || */
 
 /* || Controller Class Definitions || */
