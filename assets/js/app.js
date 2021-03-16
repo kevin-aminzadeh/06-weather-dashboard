@@ -185,4 +185,126 @@ class WeatherAPIService {
 
 /* || View Class Definitions || */
 
+// Previous Searches View Class Definition
+class PreviousSearchesView {
+  constructor(rootEl) {
+    this.rootEl = rootEl;
+    this.template = document.createRange().createContextualFragment(`
+      <!-- Sidebar -->
+      <nav
+        id="sidebarMenu"
+        class="collapse col-md-3 col-lg-3 col-xl-2 bg-light sidebar d-md-block position-fixed"
+      >
+        <!-- Sidebar Content Wrapper -->
+        <div class="position-sticky pt-5 pt-md-3">
+          <!-- Search History Section -->
+
+          <ul class="nav flex-column pt-2 pt-md-0" id="previous-search-list">
+            <h2 class="h4 nav-link ">Previous Searches</h2>
+            <p class="fs-6 nav-link text-center text-muted" id="search-placeholder-text">No data to display.</p>
+          </ul>
+
+        </div>
+      </nav>
+    `);
+
+    this.init();
+  }
+
+  init() {
+    this.rootEl.append(this.template);
+    eventBus.subscribe(
+      "PreviousSearchesView",
+      "previousSearchesRetrieved",
+      this.render
+    );
+
+    eventBus.subscribe(
+      "PreviousSearchesView",
+      "previousSearchItemAdded",
+      this.update
+    );
+  }
+
+  update(data) {
+    // Store a reference to the placehoder text element
+    const placeHolderText = document.getElementById("search-placeholder-text");
+
+    // Hide the placeholder text element
+    placeHolderText.classList.add("invisible");
+
+    const ul = document.getElementById("previous-search-list");
+    const li = document.createElement("li");
+    li.classList.add("nav-item", "d-grid");
+
+    const btn = document.createElement("button");
+    btn.classList.add(
+      "list-group-item",
+      "list-group-action",
+      "text-start",
+      "text-secondary"
+    );
+    btn.innerText = data.city;
+    btn.dataset.lat = data.coordinates.lat;
+    btn.dataset.lon = data.coordinates.lon;
+    btn.addEventListener("click", () => {
+      const city = {
+        name: data.city,
+        coordinates: {
+          lat: btn.dataset.lat,
+          lng: btn.dataset.lon,
+        },
+      };
+
+      eventBus.publish("searchItemClicked", city);
+    });
+    li.append(btn);
+    ul.append(li);
+  }
+
+  render(data) {
+    // Store a reference to the placehoder text element
+    const placeHolderText = document.getElementById("search-placeholder-text");
+
+    // If previous search data exists, hide the placeholder text element
+    if (data.length) {
+      placeHolderText.classList.add("invisible");
+    }
+
+    // Store a reference to the previous searches <ul> element
+    const ul = document.getElementById("previous-search-list");
+
+    // For each previous search object in LocalStorage, generate an <li> element with its corresponding data and append it to the <ul>
+    for (const item of data) {
+      const li = document.createElement("li");
+      li.classList.add("nav-item", "d-grid");
+
+      const btn = document.createElement("button");
+      btn.classList.add(
+        "list-group-item",
+        "list-group-action",
+        "text-start",
+        "text-secondary"
+      );
+      btn.innerText = item.city;
+      btn.dataset.lat = item.coordinates.lat;
+      btn.dataset.lon = item.coordinates.lon;
+      btn.addEventListener("click", () => {
+        const city = {
+          name: item.city,
+          coordinates: {
+            lat: btn.dataset.lat,
+            lng: btn.dataset.lon,
+          },
+        };
+
+        eventBus.publish("searchItemClicked", city);
+      });
+      li.append(btn);
+
+      ul.append(li);
+    }
+  }
+}
+
 /* || Controller Class Definitions || */
