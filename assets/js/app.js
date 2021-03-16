@@ -388,4 +388,64 @@ class CurrentWeatherView {
   }
 }
 
+// Five Day Forecast View Class Definition
+class FiveDayForecastView {
+  constructor(resultsRootEl) {
+    this.rootEl = resultsRootEl;
+    this.template = document.createRange().createContextualFragment(`
+      <!-- 5-Day Forecast Section -->
+      <section class="row py-4 invisible" id="forecast-section">
+        <h2>5-Day Forecast:</h2>
+        <div class ="row" id="forecast-cards-wrapper">
+
+        </div>  
+      </section>
+    `);
+    this.render();
+    eventBus.subscribe(
+      "FiveDayForecastView",
+      "forecastDataUpdated",
+      this.update
+    );
+  }
+
+  render() {
+    this.rootEl.append(this.template);
+  }
+
+  update(data) {
+    document.getElementById("forecast-section").classList.remove("invisible");
+    const cardsWrapperEl = document.getElementById("forecast-cards-wrapper");
+    cardsWrapperEl.innerHTML = "";
+    for (const day of data) {
+      const col = document.createElement("div");
+      col.classList.add("col-12", "col-md-6", "col-lg-4", "col-xl");
+      const card = document.createElement("div");
+      card.classList.add("card", "text-white", "bg-primary", "mb-3", "w-100");
+      // card.style.maxWidth = "18rem";
+      const cardBody = document.createElement("div");
+      cardBody.classList.add("card-body", "text-center", "text-md-start");
+      const cardTitle = document.createElement("h5");
+      cardTitle.classList.add("card-title");
+      cardTitle.innerText = day.date;
+      const cardText = document.createElement("ul");
+      cardText.classList.add("card-text", "list-unstyled", "mt-3");
+      const iconLi = document.createElement("li");
+      const iconImg = document.createElement("img");
+      iconImg.src = day.icon.url;
+      iconLi.append(iconImg);
+      const tempLi = document.createElement("li");
+      tempLi.innerText = `Temp: ${day.temp}`;
+      const humidityLi = document.createElement("li");
+      humidityLi.innerText = `Humidity: ${day.humidity}`;
+
+      cardText.append(iconLi, tempLi, humidityLi);
+      cardBody.append(cardTitle, cardText);
+      card.append(cardBody);
+      col.append(card);
+      cardsWrapperEl.append(col);
+    }
+  }
+}
+
 /* || Controller Class Definitions || */
