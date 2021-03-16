@@ -1,3 +1,8 @@
+// Global Variables
+const rootEl = document.getElementById("app-root");
+const resultsRootEl = document.getElementById("results-root");
+let previousSearches = [];
+
 /* || Abstract Utility Class Definitions || */
 
 // PubSub Utility Class
