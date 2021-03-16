@@ -17,10 +17,11 @@
     <title>Weather Dashboard</title>
   </head>
   <body class="h-100 d-flex flex-column">
+    <!-- Navbar -->
     <header
       class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
     >
-      <a href="" class="navbar-brand col-md-3 col-lg-2 px-3 me-0">
+      <a href="" class="navbar-brand col-md-3 col-xl-2 px-3 me-0">
         Weather Dashboard
       </a>
       <!-- Hamburger Menu Button For Sidebar -->
@@ -44,162 +45,17 @@
           placeholder="Enter a city"
           aria-label="Search"
         />
-        <button class="btn btn-light rounded-0 px-4">
+        <button class="btn btn-light rounded-0 px-4" id="search-btn">
           <i class="fas fa-search"></i>
         </button>
       </div>
     </header>
+    <!-- Main Content Wrapper -->
     <div class="container-fluid h-100">
-      <div class="row h-100">
-        <!-- Sidebar -->
-        <nav
-          id="sidebarMenu"
-          class="col-md-3 col-lg-3 col-xl-2 bg-light sidebar d-md-block"
-        >
-          <!-- Sidebar Content Wrapper -->
-          <div class="position-sticky pt-5 pt-md-3">
-            <!-- Search History Section -->
-
-            <ul class="nav flex-column pt-2 pt-md-0">
-              <li class="nav-item">
-                <h2 class="lead nav-link">Previous Searches</h2>
-              </li>
-              <li class="nav-item d-grid">
-                <button
-                  class="list-group-item list-group-action text-start text-secondary"
-                >
-                  Austin
-                </button>
-              </li>
-
-              <button
-                class="list-group-item list-group-action text-start text-secondary"
-              >
-                Sydney
-              </button>
-              <button
-                class="list-group-item list-group-action text-start text-secondary"
-              >
-                Melbourne
-              </button>
-              <button
-                class="list-group-item list-group-action text-start text-secondary"
-              >
-                Adelaide
-              </button>
-            </ul>
-          </div>
-        </nav>
-        <!-- Result Section -->
+      <div class="row h-100" id="app-root">
+        <!-- Search Result Section -->
         <main class="col-md-9 col-xl-10 ms-sm-auto px-md-4 py-3">
-          <div class="container">
-            <div class="row" id="details"></div>
-            <!-- Current Forecast Section -->
-            <section class="row border py-4">
-              <div class="col">
-                <h2>Atlanta</h2>
-              </div>
-              <ul class="list-unstyled">
-                <li class="mt-3">
-                  Temperature: <span id="temp-value">30</span> &degC
-                </li>
-                <li class="mt-3">
-                  Humidity: <span id="humidity-value">41</span> %
-                </li>
-                <li class="mt-3">
-                  Wind Speed: <span id="wind-value">4.7</span> MPH
-                </li>
-                <li class="mt-3">
-                  UV Index:
-                  <span class="badge bg-danger py-2" id="uv-value">9.49</span>
-                </li>
-              </ul>
-            </section>
-            <!-- 5-Day Forecast Section -->
-            <div class="row py-4">
-              <h2>5-Day Forecast:</h2>
-              <!-- Day Forecast Card -->
-              <div class="col">
-                <div
-                  class="card text-white bg-primary mb-3"
-                  style="max-width: 18rem"
-                >
-                  <div class="card-body">
-                    <h5 class="card-title">25/01/2021</h5>
-                    <ul class="card-text list-unstyled mt-3">
-                      <li>icon</li>
-                      <li>Temp:</li>
-                      <li>Humidity:</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <!-- Day Forecast Card -->
-              <div class="col">
-                <div
-                  class="card text-white bg-primary mb-3"
-                  style="max-width: 18rem"
-                >
-                  <div class="card-body">
-                    <h5 class="card-title">25/01/2021</h5>
-                    <ul class="card-text list-unstyled mt-3">
-                      <li>icon</li>
-                      <li>Temp:</li>
-                      <li>Humidity:</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <!-- Day Forecast Card -->
-              <div class="col">
-                <div
-                  class="card text-white bg-primary mb-3"
-                  style="max-width: 18rem"
-                >
-                  <div class="card-body">
-                    <h5 class="card-title">25/01/2021</h5>
-                    <ul class="card-text list-unstyled mt-3">
-                      <li>icon</li>
-                      <li>Temp:</li>
-                      <li>Humidity:</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <!-- Day Forecast Card -->
-              <div class="col">
-                <div
-                  class="card text-white bg-primary mb-3"
-                  style="max-width: 18rem"
-                >
-                  <div class="card-body">
-                    <h5 class="card-title">25/01/2021</h5>
-                    <ul class="card-text list-unstyled mt-3">
-                      <li>icon</li>
-                      <li>Temp:</li>
-                      <li>Humidity:</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <!-- Day Forecast Card -->
-              <div class="col">
-                <div
-                  class="card text-white bg-primary mb-3"
-                  style="max-width: 18rem"
-                >
-                  <div class="card-body">
-                    <h5 class="card-title">25/01/2021</h5>
-                    <ul class="card-text list-unstyled mt-3">
-                      <li>icon</li>
-                      <li>Temp:</li>
-                      <li>Humidity:</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="container" id="results-root"></div>
         </main>
       </div>
     </div>
