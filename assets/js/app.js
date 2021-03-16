@@ -480,7 +480,7 @@ class App {
       uvi: data.current.uvi,
       icon: {
         main: data.current.weather[0].main,
-        url: `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`,
+        url: `https://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`,
       },
     };
 
@@ -502,7 +502,7 @@ class App {
           humidity: forecastData.humidity + "%",
           icon: {
             main: forecastData.weather[0].main,
-            url: `http://openweathermap.org/img/wn/${forecastData.weather[0].icon}@2x.png`,
+            url: `https://openweathermap.org/img/wn/${forecastData.weather[0].icon}@2x.png`,
           },
         };
 
