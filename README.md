@@ -68,6 +68,7 @@ Some of the more obvious areas of improvement include:
 - HTML5
 - CSS3
 - JavaScript ES6
+- [Bootstrap v5.0](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 - [Google Places Web API](https://developers.google.com/maps/documentation/places/web-service/overview)
 - [OpenWeather's One Call Web API](https://openweathermap.org/api/one-call-api)
 
