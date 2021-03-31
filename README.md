@@ -48,7 +48,13 @@ As part of a learning exercise about various cross component/sub-system communic
 
 The various classes/components of the app interact with each other through the use of a simple `EventBus` class. The Event Bus maintains a registry of internal events, as well as the components who are subscribed to those events and their callbacks.
 
-In theory, this approach allows better decoupling of components and enforces the principles of abstraction and separation of concerns. However, in this fairly naive implementation of the pattern it is questionable wether any benefit is gained as the application is very simple and all its components are contained in a single file.
+In theory, this approach allows better decoupling of components and enforces the principles of abstraction and separation of concerns. However, in this fairly naive implementation of the pattern it is questionable wether any benefit is gained.
+
+This is due to a combination of the following factors:
+
+- The application is quite simple
+- All application components are contained in a single file
+- All of the application's various subclasses with the exception of the `EventBus` class are contained in the `App` controller class meaning. (Although were this not the case, as a result of the pub-sub implementation, they would be able to function and communicate with one and other just the same).
 
 ## Future Improvements
 
