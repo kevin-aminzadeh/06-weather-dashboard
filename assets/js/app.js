@@ -116,7 +116,6 @@ class PlacesAPIService {
       document.getElementById("search-input"),
       {
         types: ["(cities)"],
-        componentRestrictions: { country: ["AU"] },
         fields: ["name", "geometry.location"],
       }
     );
@@ -193,14 +192,14 @@ class PreviousSearchesView {
       <!-- Sidebar -->
       <nav
         id="sidebarMenu"
-        class="collapse col-md-3 col-lg-3 col-xl-2 bg-light sidebar d-md-block position-fixed"
+        class="collapse col-md-3 col-lg-3 col-xl-2 bg-dark sidebar d-md-block position-fixed"
       >
         <!-- Sidebar Content Wrapper -->
         <div class="position-sticky pt-5 pt-md-3">
           <!-- Search History Section -->
 
-          <ul class="nav flex-column pt-2 pt-md-0" id="previous-search-list">
-            <h2 class="h4 nav-link ">Previous Searches</h2>
+          <ul class="nav flex-column pt-2 pt-md-0 text-light" id="previous-search-list">
+            <h2 class="h4 nav-link mt-3 ">Previous Searches</h2>
             <p class="fs-6 nav-link text-center text-muted" id="search-placeholder-text">No data to display.</p>
           </ul>
 
@@ -227,7 +226,7 @@ class PreviousSearchesView {
   }
 
   update(data) {
-    // Store a reference to the placehoder text element
+    // Store a reference to the placeholder text element
     const placeHolderText = document.getElementById("search-placeholder-text");
 
     // Hide the placeholder text element
@@ -242,6 +241,8 @@ class PreviousSearchesView {
       "list-group-item",
       "list-group-action",
       "text-start",
+      "form-control-dark",
+      "border-0",
       "text-secondary"
     );
     btn.innerText = data.city;
@@ -258,6 +259,20 @@ class PreviousSearchesView {
 
       eventBus.publish("searchItemClicked", city);
     });
+    // Remove active style from other previous search item buttons
+    for (const child of ul.children) {
+      if (child.nodeName === "LI") {
+        const btn = child.firstElementChild;
+        btn.classList.remove("active");
+        btn.classList.add("text-secondary");
+      }
+    }
+
+    // Add active styles to current search button
+    btn.classList.add("active");
+    btn.classList.remove("text-secondary");
+
+    // Render button to view
     li.append(btn);
     ul.append(li);
   }
@@ -284,6 +299,8 @@ class PreviousSearchesView {
         "list-group-item",
         "list-group-action",
         "text-start",
+        "form-control-dark",
+        "border-0",
         "text-secondary"
       );
       btn.innerText = item.city;
@@ -304,6 +321,19 @@ class PreviousSearchesView {
 
       ul.append(li);
     }
+
+    // Apply active class to li elements
+    ul.addEventListener("click", (e) => {
+      for (const child of ul.children) {
+        if (child.nodeName === "LI") {
+          const btn = child.firstElementChild;
+          btn.classList.remove("active");
+          btn.classList.add("text-secondary");
+        }
+      }
+      e.target.classList.add("active");
+      e.target.classList.remove("text-secondary");
+    });
   }
 }
 
@@ -313,7 +343,7 @@ class CurrentWeatherView {
     this.rootEl = resultsRootEl;
     this.template = document.createRange().createContextualFragment(`
       <!-- Current Weather Section -->
-      <section class="row py-4" id="current-weather">
+      <section class="row py-4 border-0" id="current-weather">
         <div class="col">
           <h1 id="city-name"></h1>
         </div>
@@ -354,7 +384,9 @@ class CurrentWeatherView {
   }
 
   update(data) {
-    document.getElementById("current-weather").classList.add("border");
+    document
+      .getElementById("current-weather")
+      .classList.add("shadow-sm", "bg-white", "mt-3");
     document
       .getElementById("city-name")
       .classList.remove("lead", "text-center", "text-secondary");
@@ -395,8 +427,8 @@ class FiveDayForecastView {
     this.template = document.createRange().createContextualFragment(`
       <!-- 5-Day Forecast Section -->
       <section class="row py-4 invisible" id="forecast-section">
-        <h2>5-Day Forecast:</h2>
-        <div class ="row" id="forecast-cards-wrapper">
+        <h2 class="mb-3 mt-4">5-Day Forecast</h2>
+        <div class ="row mt-2" id="forecast-cards-wrapper">
 
         </div>  
       </section>
@@ -421,7 +453,14 @@ class FiveDayForecastView {
       const col = document.createElement("div");
       col.classList.add("col-12", "col-md-6", "col-lg-4", "col-xl");
       const card = document.createElement("div");
-      card.classList.add("card", "text-white", "bg-primary", "mb-3", "w-100");
+      card.classList.add(
+        "card",
+        "bg-white",
+        "mb-3",
+        "w-100",
+        "border-0",
+        "shadow-sm"
+      );
       // card.style.maxWidth = "18rem";
       const cardBody = document.createElement("div");
       cardBody.classList.add("card-body", "text-center", "text-md-start");
@@ -448,7 +487,7 @@ class FiveDayForecastView {
   }
 }
 
-/* || Controller Class Definitions || */
+/* || App Controller Class Definition || */
 
 // Application Controller Class Definition
 class App {
@@ -516,7 +555,7 @@ class App {
   }
 }
 
-// Initialize App Once HTML Document Has Loaded
+// Instantiate Event Bus and App Once HTML Document Has Loaded
 window.addEventListener("DOMContentLoaded", () => {
   eventBus = new EventBus();
   app = new App();
