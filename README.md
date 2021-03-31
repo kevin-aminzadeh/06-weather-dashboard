@@ -54,7 +54,7 @@ This is due to a combination of the following factors:
 
 - The application is quite simple
 - All application components are contained in a single file
-- All of the application's various subclasses with the exception of the `EventBus` class are contained in the `App` controller class meaning. (Although were this not the case, as a result of the pub-sub implementation, they would be able to function and communicate with one and other just the same).
+- All of the application's various subclasses with the exception of the `EventBus` class are contained in the `App` controller class. (Although were this not the case, as a result of the pub-sub implementation, they would be able to function and communicate with one and other just the same).
 
 ## Future Improvements
 
